@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./process/jquery.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="./highchart/highcharts.js"></script>
+    <script src="./highchart/export-data.js"></script>
+    <script src="./highchart/accessibility.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./styles/homeview.css" />
+
+    <title>Smart home</title>
+  </head>
+
+  <body>
+    <div class="layout-container" id="layout">
+      <div class="container-block" id="containerBlock">
+        <div class="main-container">
+          <div class="main-title">
+            <div class="title-status">
+              <h2 id="date-message">Good morning, Minh</h2>
+              <p id="message-hello">Have a nice day!</p>
+            </div>
+            <div class="title-date">
+              <h2 id="time">--</h2>
+              <p id="date">--</p>
+            </div>
+          </div>
+          <div class="main-smartHome">
+            <!-- Dashboard -->
+            <div class="smartHome-dashBoard">
+              <ul class="dashboard-block">
+                <li
+                  class="dashboard-item dashboard-item-active"
+                  id="dashboardHome"
+                >
+                  <a href="./home">
+                    <i class="fas fa-home"></i>
+                  </a>
+                </li>
+                <li class="dashboard-item" id="changeColor">
+                  <i class="fas fa-exchange-alt"></i>
+                </li>
+
+                <li class="dashboard-item">
+                  <i class="fa-solid fa-gear"></i>
+                </li>
+              </ul>
+            </div>
+
+            <div class="smartHome-control">
+              <!-- navbar -->
+              <ul class="navigation-list">
+                <li class="navigation-item navigation-item-home-active">
+                  <a href="/home">Home</a>
+                </li>
+                <li class="navigation-item">
+                  <a href="/control">Control All</a>
+                </li>
+                <li class="navigation-item">
+                  <a href="/history">History</a>
+                </li>
+              </ul>
+              <!--Homeview -->
+              <div class="smartHome-view" id="homeView">
+                <div class="container">
+                  <div class="content">
+                    <!-- highchart -->
+                    <div class="highchart-box">
+                      <figure class="highcharts-figure">
+                        <div class="hightchart-container" id="container"></div>
+                      </figure>
+                    </div>
+                    <!-- infor -->
+                    <div class="infomation">
+                      <div class="information-item">
+                        <!-- block1 -->
+                        <div class="col-4" style="--clr: #eeee49">
+                          <div class="data-container">
+                            <ion-icon name="sunny-outline"></ion-icon>
+                            <div class="data-content">
+                              <div class="inf">
+                                <span id="currentLight"></span>
+                                <span>lux</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="line"></div>
+                          <div class="message">
+                            <p>Light</p>
+                          </div>
+                        </div>
+                        <!-- block2 -->
+                        <div class="col-4" style="--clr: tomato">
+                          <div class="data-container">
+                            <ion-icon name="thermometer-outline"></ion-icon>
+                            <div class="data-content">
+                              <div class="inf">
+                                <span id="currentTemp"></span>
+                                <span>°C</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="line"></div>
+                          <div class="message">
+                            <p>Temperature</p>
+                          </div>
+                        </div>
+                        <!-- block3 -->
+                        <div class="col-4" style="--clr: rgb(73 163 241)">
+                          <div class="data-container">
+                            <ion-icon name="water-outline"></ion-icon>
+                            <div class="data-content">
+                              <div class="inf">
+                                <span id="currentHumi"></span>
+                                <span>%</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="line"></div>
+                          <div class="message">
+                            <p>Humidity</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="weather-block">
+          <div class="weather-container" id="weather">
+            <div class="main-section">
+              <div class="search-bar">
+                <div class="box-search-bar">
+                  <i class="fas fa-search search-icon"></i>
+                  <input
+                    type="text"
+                    name="search-city"
+                    id="search-input"
+                    placeholder="Tìm kiếm thành phố..."
+                  />
+                  <span class="microphone">
+                    <i class="fas fa-microphone"></i>
+                    <span class="recording-icon"></span>
+                  </span>
+                </div>
+              </div>
+              <div class="box-infor-wrap">
+                <div class="info-wrapper">
+                  <p class="city-name">--</p>
+                  <p class="weather-state">--</p>
+                  <img
+                    src="http://openweathermap.org/img/wn/10d@2x.png"
+                    alt="weather icon"
+                    class="weather-icon"
+                  />
+                  <div class="display-degree">
+                    <p class="temperature">--</p>
+                    <p class="degree-c">C</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="additional-section">
+              <div class="additional-section-container">
+                <div class="row mb20">
+                  <div class="item">
+                    <div class="value sunrise">--</div>
+                    <div class="label">Sunrise</div>
+                  </div>
+                  <div class="item">
+                    <div class="value sunset">--</div>
+                    <div class="label">Sunset</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="item">
+                    <div class="value"><span class="humidity">--</span>%</div>
+                    <div class="label">Humidity</div>
+                  </div>
+                  <div class="item">
+                    <div class="value">
+                      <span class="wind-speed">--</span> km/h
+                    </div>
+                    <div class="label">WindSpeed</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- highchart config -->
+    <script type="text/javascript">
+      var chart = Highcharts.chart("container", {
+        chart: {
+          zoomType: "xy",
+        },
+        title: {
+          text: "Đồ thị nhiệt độ - độ ẩm",
+        },
+
+        xAxis: [
+          {
+            categories: [],
+            tickWidth: 1,
+            tickLength: 20,
+          },
+        ],
+        yAxis: [
+          {
+            // Primary yAxis
+            labels: {
+              format: "{value}",
+              formatter: function () {
+                return this.value + "°C";
+              },
+              style: {
+                color: Highcharts.getOptions().colors[1],
+              },
+            },
+            title: {
+              text: "Nhiệt độ (°C)",
+              style: {
+                color: Highcharts.getOptions().colors[1],
+              },
+            },
+          },
+          {
+            // Secondary yAxis
+            title: {
+              text: "Độ ẩm(%)",
+              style: {
+                color: Highcharts.getOptions().colors[0],
+              },
+            },
+            labels: {
+              format: "{value}",
+              formatter: function () {
+                return this.value + "%";
+              },
+              style: {
+                color: Highcharts.getOptions().colors[0],
+              },
+            },
+            opposite: true,
+          },
+        ],
+        tooltip: {
+          shared: true,
+        },
+
+        series: [
+          {
+            name: "Độ ẩm",
+            type: "column",
+            // color: 'red', //column
+            yAxis: 1,
+            data: [],
+            tooltip: {
+              valueSuffix: "%",
+            },
+          },
+          {
+            name: "Nhiệt độ",
+            type: "spline",
+            data: [],
+            tooltip: {
+              valueSuffix: "°C",
+            },
+            zones: [
+              {
+                value: 10,
+                color: "#ff0015",
+              },
+              {
+                value: 30,
+                color: "#141107", //line
+              },
+              {
+                color: "#ff0015",
+              },
+            ],
+          },
+        ],
+      });
+
+      socket.on("server-send-humi_graph", function (data) {
+        chart.series[0].setData(data);
+      });
+
+      socket.on("server-send-temp_graph", function (data) {
+        chart.series[1].setData(data);
+      });
+
+      socket.on("server-send-date_graph", function (data) {
+        chart.xAxis[0].setCategories(data);
+      });
+    </script>
+    <script type="module" src="./process/weather.js"></script>
+    <script src="./process/moment.js"></script>
+    <script src="./process/xuly.js"></script>
+  </body>
+</html>

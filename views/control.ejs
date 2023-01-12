@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="socket.io/socket.io.js"></script>
+    <script src="./process/jquery.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./styles/homeview.css" />
+
+    <title>Smart home</title>
+  </head>
+
+  <body>
+    <div class="layout-container" id="layout">
+      <div class="container-block" id="containerBlock">
+        <div class="main-container">
+          <!-- Header -->
+          <div class="main-title">
+            <div class="title-status">
+              <h2 id="date-message">Good morning, Minh</h2>
+              <p>Have a nice day!</p>
+            </div>
+            <div class="title-date">
+              <h2 id="time">--</h2>
+              <p id="date">--</p>
+            </div>
+          </div>
+
+          <div class="main-smartHome">
+            <!-- dashboard -->
+            <div class="smartHome-dashBoard">
+              <ul class="dashboard-block">
+                <li class="dashboard-item" id="dashboardHome">
+                  <a href="./home">
+                    <i class="fas fa-home"></i>
+                  </a>
+                </li>
+
+                <li class="dashboard-item" id="changeColor">
+                  <i class="fas fa-exchange-alt"></i>
+                </li>
+
+                <li class="dashboard-item">
+                  <i class="fa-solid fa-gear"></i>
+                </li>
+
+                <!-- <li class="dashboard-item">
+                  <span class="" id="btn-recognition">
+                    <i class="fas fa-microphone-alt" id="btnMaster"></i>
+                  </span>
+                </li> -->
+              </ul>
+            </div>
+
+            <div class="smartHome-control">
+              <!-- nav -->
+              <div class="box-list-nav">
+                <ul class="navigation-list">
+                  <li class="navigation-item">
+                    <a href="/home">Home</a>
+                  </li>
+                  <li class="navigation-item navigation-item-control-active">
+                    <a href="/control">Controls</a>
+                  </li>
+                  <li class="navigation-item">
+                    <a href="/history">History</a>
+                  </li>
+                </ul>
+                <div class="box-micro">
+                  <p>Control by recognition</p>
+                  <span class="" id="btn-recognition">
+                    <i class="fas fa-microphone-alt" id="btnMaster"></i>
+                  </span>
+                </div>
+              </div>
+              <!-- control view -->
+              <div class="smartHome-view" id="homeView">
+                <div class="control">
+                  <!-- block left -->
+                  <div class="control-main">
+                    <div class="control-container">
+                      <!-- living -->
+                      <div class="control-living">
+                        <div class="living-block">
+                          <h3 class="control-item-header">Living Room</h3>
+                          <div class="living-box">
+                            <div class="living-item">
+                              <div class="living">
+                                <div class="living-status" id="s1">Off</div>
+                                <div class="living-status-block">
+                                  <label>
+                                    <input
+                                      class="led checkbox"
+                                      id="led1"
+                                      type="checkbox"
+                                      onclick="handleLed(1)"
+                                    />
+                                    <span>
+                                      <!-- <ion-icon name="bulb-outline"></ion-icon> -->
+                                      <div class="toggle"></div>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="living-icon">
+                                <i class="far fa-lightbulb"></i>
+                              </div>
+                              <div class="living-device">Light</div>
+                            </div>
+
+                            <div class="living-item">
+                              <div class="living">
+                                <div class="living-status" id="s2">Off</div>
+                                <div class="living-status-block">
+                                  <label>
+                                    <input
+                                      class="led checkbox"
+                                      id="led2"
+                                      type="checkbox"
+                                      onclick="handleLed(2)"
+                                    />
+                                    <span>
+                                      <div class="toggle"></div>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="living-icon">
+                                <i class="fa fa-television"></i>
+                              </div>
+                              <div class="living-device">Television</div>
+                            </div>
+
+                            <div class="living-item">
+                              <div class="living">
+                                <div class="living-status" id="s3">Off</div>
+                                <div class="living-status-block">
+                                  <label>
+                                    <input
+                                      class="led checkbox"
+                                      id="led3"
+                                      type="checkbox"
+                                      onclick="handleLed(3)"
+                                    />
+                                    <span>
+                                      <div class="toggle"></div>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="living-icon">
+                                <i class="fa-solid fa-fan"></i>
+                              </div>
+                              <div class="living-device">Fan</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Bedroom -->
+                      <div class="control-bedroom">
+                        <div class="living-block bedroom-bg">
+                          <h3 class="control-item-header">Bed Room</h3>
+                          <div class="living-box">
+                            <div class="living-item">
+                              <div class="living">
+                                <div class="living-status" id="s4">Off</div>
+                                <div class="living-status-block">
+                                  <label>
+                                    <input
+                                      class="led checkbox"
+                                      id="led4"
+                                      type="checkbox"
+                                      onclick="handleLed(4)"
+                                    />
+                                    <span>
+                                      <!-- <ion-icon name="bulb-outline"></ion-icon> -->
+                                      <div class="toggle"></div>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="living-icon">
+                                <img
+                                  src="./image/conditioner.png"
+                                  alt="conditioner"
+                                  class="icon-img"
+                                />
+                              </div>
+                              <div class="living-device">Conditioner</div>
+                            </div>
+
+                            <div class="living-item">
+                              <div class="living">
+                                <div class="living-status" id="s5">Off</div>
+                                <div class="living-status-block">
+                                  <label>
+                                    <input
+                                      class="led checkbox"
+                                      id="led5"
+                                      type="checkbox"
+                                      onclick="handleLed(5)"
+                                    />
+                                    <span>
+                                      <div class="toggle"></div>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="living-icon">
+                                <img
+                                  src="./image/ligh.png"
+                                  alt="light"
+                                  class="icon-img"
+                                />
+                              </div>
+                              <div class="living-device">Light</div>
+                            </div>
+
+                            <div class="living-item">
+                              <div class="living">
+                                <div class="living-status" id="s6">Off</div>
+                                <div class="living-status-block">
+                                  <label>
+                                    <input
+                                      class="led checkbox"
+                                      id="led6"
+                                      type="checkbox"
+                                      onclick="handleLed(6)"
+                                    />
+                                    <span>
+                                      <!-- <ion-icon name="bulb-outline"></ion-icon> -->
+                                      <div class="toggle"></div>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="living-icon">
+                                <img
+                                  src="./image/doorBedroom.png"
+                                  alt="Curtain"
+                                  class="icon-img"
+                                />
+                              </div>
+                              <div class="living-device">Door</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- block right -->
+                  <div class="control-mp3">
+                    <!-- control outdoor -->
+                    <div class="outdoor-container">
+                      <h3>Outdoor</h3>
+                      <div class="outdoor-block">
+                        <div class="outdoor-item">
+                          <div class="box-icon-outdoor">
+                            <i class="fa-solid fa-door-open"></i>
+                          </div>
+                          <div class="outdoor-item-control">
+                            <label>
+                              <input
+                                class="led checkbox"
+                                id="led7"
+                                type="checkbox"
+                                onclick="handleLed(7)"
+                              />
+                              <span>
+                                <div class="toggle"></div>
+                              </span>
+                            </label>
+                            <div class="outdoor-name">Door</div>
+                          </div>
+                        </div>
+                        <div class="outdoor-item">
+                          <div class="box-icon-outdoor">
+                            <i class="far fa-lightbulb"></i>
+                          </div>
+                          <div class="outdoor-item-control">
+                            <label>
+                              <input
+                                class="led checkbox"
+                                id="led8"
+                                type="checkbox"
+                                onclick="handleLed(8)"
+                              />
+                              <span>
+                                <div class="toggle"></div>
+                              </span>
+                            </label>
+                            <div class="outdoor-name">Light</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- mp3 -->
+                    <div class="mp3-container">
+                      <div class="music">
+                        <div class="top-music">
+                          <div class="music-thumb">
+                            <img
+                              src="https://source.unsplash.com/random"
+                              alt=""
+                            />
+                          </div>
+                          <h3 class="music-name">Beautiful in white</h3>
+                        </div>
+                        <div class="bottom-music">
+                          <div class="box-bottom-music">
+                            <input
+                              type="range"
+                              name="range"
+                              id="range"
+                              class="range"
+                            />
+                            <audio src="./music/holo.mp3" id="song"></audio>
+                            <div class="timer">
+                              <div class="duration">2:10</div>
+                              <div class="remaining">-3:10</div>
+                            </div>
+                          </div>
+                          <div class="controls">
+                            <ion-icon
+                              name="infinite-outline"
+                              class="play-infinite"
+                            ></ion-icon>
+                            <ion-icon
+                              name="play-back"
+                              class="play-back"
+                            ></ion-icon>
+                            <div class="play">
+                              <div class="player-inner">
+                                <ion-icon
+                                  name="play"
+                                  class="play-icon"
+                                ></ion-icon>
+                              </div>
+                            </div>
+                            <ion-icon
+                              name="play-forward"
+                              class="play-forward"
+                            ></ion-icon>
+                            <ion-icon
+                              name="repeat-outline"
+                              class="play-repeat"
+                            ></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- weather -->
+        <div class="weather-block">
+          <div class="weather-container" id="weather">
+            <div class="main-section">
+              <div class="search-bar">
+                <div class="box-search-bar">
+                  <i class="fas fa-search search-icon"></i>
+                  <input
+                    type="text"
+                    name="search-city"
+                    id="search-input"
+                    placeholder="Tìm kiếm thành phố..."
+                  />
+                  <span class="microphone">
+                    <i class="fas fa-microphone"></i>
+                    <span class="recording-icon"></span>
+                  </span>
+                </div>
+              </div>
+              <div class="box-infor-wrap">
+                <div class="info-wrapper">
+                  <p class="city-name">--</p>
+                  <p class="weather-state">--</p>
+                  <img
+                    src="http://openweathermap.org/img/wn/10d@2x.png"
+                    alt="weather icon"
+                    class="weather-icon"
+                  />
+                  <div class="display-degree">
+                    <p class="temperature">--</p>
+                    <p class="degree-c">C</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="additional-section">
+              <div class="additional-section-container">
+                <div class="row mb20">
+                  <div class="item">
+                    <div class="value sunrise">--</div>
+                    <div class="label">Sunrise</div>
+                  </div>
+                  <div class="item">
+                    <div class="value sunset">--</div>
+                    <div class="label">Sunset</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="item">
+                    <div class="value"><span class="humidity">--</span>%</div>
+                    <div class="label">Humidity</div>
+                  </div>
+                  <div class="item">
+                    <div class="value">
+                      <span class="wind-speed">--</span> km/h
+                    </div>
+                    <div class="label">WindSpeed</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./process/recognitionControlDevices.js"></script>
+    <script type="module" src="./process/weather.js"></script>
+    <script src="./process/moment.js"></script>
+    <script src="./process/xuly.js"></script>
+  </body>
+</html>

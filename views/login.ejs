@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smarthome</title>
+    <link rel="stylesheet" href="./styles/login.css" />
+  </head>
+
+  <body>
+    <div class="main">
+      <form action="" method="POST" class="form" id="form-2">
+        <h3 class="heading">Sign in</h3>
+        <p class="desc">Please enter all fields!</p>
+
+        <div class="spacer"></div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="text"
+            placeholder="Ex: levanminhptit@gmail.com"
+            class="form-control"
+          />
+          <span class="form-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Your password"
+            class="form-control"
+          />
+          <span class="form-message"></span>
+        </div>
+
+        <button class="form-submit">Sign in</button>
+        <div class="notAcount">
+          Not have an account?<a href="signup">Sign Up Here</a>
+        </div>
+      </form>
+    </div>
+    <script src="./process/validatorForm.js"></script>
+    <script>
+      Validator({
+        form: "#form-2",
+        errorSelector: ".form-message",
+        rule: [
+          Validator.isRequired("#email", "Vui lòng nhập tên đầy đủ"),
+          Validator.isEmail("#email", "Vui lòng nhập email của bạn"),
+
+          Validator.isRequired("#password", "Vui lòng nhập tên đầy đủ"),
+          Validator.minLength("#password", 6),
+        ],
+        onsubmit: function (data) {
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          var data = JSON.parse(localStorage.getItem("usename"));
+          console.log("data-usename", data);
+          if (!data || data.email != email || data.password != password) {
+            alert("Your have not already account? Please sign up an account?");
+          } else if (data.email == email && data.password == password) {
+            window.location.href = "home";
+          }
+        },
+      });
+    </script>
+  </body>
+</html>
